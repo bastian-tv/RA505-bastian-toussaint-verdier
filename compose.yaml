@@ -3,7 +3,8 @@ services:
     image: 'mysql:8.4.7'
     environment:
       - 'MYSQL_DATABASE=tp_spring'
-      - 'MYSQL_ROOT_PASSWORD=tp_spring_mdp'
-      - 'MYSQL_USER=myuser'
+      - 'MYSQL_ROOT_PASSWORD=tp_spring_mdp_root'
     ports:
       - '3306:3306'
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
