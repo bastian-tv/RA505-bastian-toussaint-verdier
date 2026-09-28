@@ -11,13 +11,6 @@ import java.time.LocalDate;
 @Entity
 public class Player {
 
-    public enum Status {
-        Available,
-        Injured,
-        Suspended,
-        Absent
-    }
-
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private @Nullable Integer idPlayer;
