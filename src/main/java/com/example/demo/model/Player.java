@@ -1,6 +1,6 @@
 package com.example.demo.model;
 
-import jakarta.annotation.Nullable;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,18 +13,19 @@ public class Player {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private @Nullable Integer idPlayer;
-    private int numLicense;
+    private Integer idPlayer;
+    private Integer numLicense;
     private String name;
     private String firstName;
     private LocalDate dateOfBirth;
-    private int size;
-    private float weight;
+    private Integer size;
+    private Float weight;
+    @jakarta.persistence.Enumerated(jakarta.persistence.EnumType.STRING)
     private Status status;
 
     public Player() {}
 
-    public @org.jspecify.annotations.Nullable Integer getIdPlayer() {
+    public Integer getIdPlayer() {
         return idPlayer;
     }
 
@@ -36,7 +37,7 @@ public class Player {
         return firstName;
     }
 
-    public int getNumLicense() {
+    public Integer getNumLicense() {
         return numLicense;
     }
 
@@ -44,11 +45,11 @@ public class Player {
         return dateOfBirth;
     }
 
-    public int getSize() {
+    public Integer getSize() {
         return size;
     }
 
-    public float getWeight() {
+    public Float getWeight() {
         return weight;
     }
 
@@ -64,7 +65,7 @@ public class Player {
         this.firstName = firstName;
     }
 
-    public void setNumLicense(int numLicense) {
+    public void setNumLicense(Integer numLicense) {
         this.numLicense = numLicense;
     }
 
@@ -72,11 +73,11 @@ public class Player {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public void setSize(int size) {
+    public void setSize(Integer size) {
         this.size = size;
     }
 
-    public void setWeight(float weight) {
+    public void setWeight(Float weight) {
         this.weight = weight;
     }
 

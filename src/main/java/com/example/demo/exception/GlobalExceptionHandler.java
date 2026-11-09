@@ -10,9 +10,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(PlayerNotFoundException.class)
-    public ResponseEntity<Map<String, String>> handleNotFound(PlayerNotFoundException ex) {
+    @ExceptionHandler({PlayerNotFoundException.class, FixtureNotFoundException.class, FixtureSheetNotFoundException.class})
+    public ResponseEntity<Map<String, String>> handleNotFound(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", ex.getMessage()));
     }
 
+    @ExceptionHandler(org.springframework.dao.DataIntegrityViolationException.class)
+    public ResponseEntity<Map<String, String>> handleConflict(org.springframework.dao.DataIntegrityViolationException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("message", "Related data prevents this operation"));
+    }
 }
