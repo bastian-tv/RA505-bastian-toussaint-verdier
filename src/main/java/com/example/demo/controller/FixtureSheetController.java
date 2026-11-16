@@ -4,6 +4,7 @@ import com.example.demo.exception.FixtureSheetNotFoundException;
 
 import com.example.demo.model.FixtureSheet;
 import com.example.demo.repository.FixtureSheetRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 
+@PreAuthorize("hasAnyRole('ADMIN', 'COACH')")
 @RestController
 @RequestMapping(path="/fixtureSheet")
 public class FixtureSheetController {

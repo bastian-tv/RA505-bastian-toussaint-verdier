@@ -4,6 +4,7 @@ import com.example.demo.exception.FixtureNotFoundException;
 import com.example.demo.exception.PlayerNotFoundException;
 import com.example.demo.model.*;
 import com.example.demo.repository.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
+@PreAuthorize("hasAnyRole('ADMIN', 'COACH')")
 @RestController
 @RequestMapping("/participations")
 public class ParticipationController {

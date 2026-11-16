@@ -6,6 +6,7 @@ import com.example.demo.model.Participation;
 import com.example.demo.model.Position;
 import com.example.demo.repository.FixtureRepository;
 import com.example.demo.repository.ParticipationRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,17 +33,20 @@ public class FixtureController {
     @Autowired
     private com.example.demo.repository.FixtureSheetRepository fixtureSheetRepository;
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'COACH', 'PLAYER')")
     @GetMapping(path="")
     public Iterable<Fixture> getAllFixtures() {
         return fixtureRepository.findAll();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'COACH', 'PLAYER')")
     @GetMapping(path="/{id}")
     public Fixture getOneFixture(@PathVariable Integer id) {
         return fixtureRepository.findById(id)
                 .orElseThrow(() -> new FixtureNotFoundException(id));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'COACH', 'PLAYER')")
     @GetMapping(path="/{id}/complete")
     public String fixtureIsComplete(@PathVariable Integer id) {
         Fixture fixture = fixtureRepository.findById(id)
@@ -56,6 +60,7 @@ public class FixtureController {
         return participations.size() == Position.values().length ? "true" : "false";
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'COACH')")
     @PostMapping(path="")
     @org.springframework.transaction.annotation.Transactional
     public ResponseEntity<Integer> addNewFixture(@RequestBody Fixture fixture) {
@@ -78,6 +83,7 @@ public class FixtureController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedFixture.getId());
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'COACH')")
     @PatchMapping(path="/{id}")
     public ResponseEntity<Integer> updateFixture(@PathVariable Integer id, @RequestBody Fixture newFixture) {
         Fixture fixture = fixtureRepository.findById(id)
@@ -111,6 +117,7 @@ public class FixtureController {
         return ResponseEntity.status(HttpStatus.OK).body(fixture.getId());
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'COACH')")
     @PatchMapping(path="/{id}/score")
     public ResponseEntity<Void> updateScore(@PathVariable Integer id, @RequestBody ScoreDto scoreDto) {
         Fixture fixture = fixtureRepository.findById(id)
@@ -130,6 +137,7 @@ public class FixtureController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'COACH')")
     @DeleteMapping("/{id}")
     @org.springframework.transaction.annotation.Transactional
     public ResponseEntity<Void> deleteFixture(@PathVariable Integer id) {

@@ -4,6 +4,7 @@ import com.example.demo.exception.PlayerNotFoundException;
 import com.example.demo.model.Fixture;
 import com.example.demo.model.Participation;
 import com.example.demo.repository.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -39,6 +40,7 @@ public class StatisticsController {
         return total == 0 ? 0 : Math.round(value * 1000.0 / total) / 10.0;
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'COACH', 'PLAYER')")
     @GetMapping("/fixtures")
     public Map<String, Object> fixtures() {
         var completed = completed();
@@ -50,6 +52,7 @@ public class StatisticsController {
                 "percentLost", percent(lost, completed.size()));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'COACH')")
     @GetMapping("/players/{id}")
     public Map<String, Object> player(@PathVariable Integer id) {
         var player = players.findById(id).orElseThrow(() -> new PlayerNotFoundException(id));
